@@ -36,15 +36,15 @@
 비기능적 요구사항
 1. 트랜잭션
     1. 결제가 완료 되지 않은 예약 건은 예약이 성립되지 않는다.  Sync 호출
-    1. 예약과 결제는 동시에 진행된다.  Sync 호출
-    1. 예약 취소와 결제 취소는 동시에 진행된다.  Sync 호출
-1. 장애격리
+    2. 예약과 결제는 동시에 진행된다.  Sync 호출
+    3. 예약 취소와 결제 취소는 동시에 진행된다.  Sync 호출
+2. 장애격리
     1. 렌트카관리 시스템이 수행되지 않더라도 예약 / 결제는 365일 24시간 받을 수 있어야 한다.  Async 호출 (event-driven)
-    1. 렌트카관리 시스템이 과중되면 예약 / 결제를 받지 않고 결제 취소를 잠시 후에 하도록 유도한다.  Circuit breaker, fallback
-    1. 결제가 취소되면 렌트카의 예약 취소가 확정되고, 렌트카의 예약 가능 여부가 변경된다.  Circuit breaker, fallback
-1. 성능
+    2. 렌트카관리 시스템이 과중되면 예약 / 결제를 받지 않고 결제 취소를 잠시 후에 하도록 유도한다.  Circuit breaker, fallback
+    3. 결제가 취소되면 렌트카의 예약 취소가 확정되고, 렌트카의 예약 가능 여부가 변경된다.  Circuit breaker, fallback
+3. 성능
     1. 고객은 렌트카 예약 가능 여부를 확인할 수 있다.  CQRS
-    1. 예약/결제 취소 정보가 변경 될 때마다 렌트카 예약 가능 여부가 변경 될 수 있어야 한다.  Event Driven
+    2. 예약/결제 취소 정보가 변경 될 때마다 렌트카 예약 가능 여부가 변경 될 수 있어야 한다.  Event Driven
 
 
 
@@ -218,7 +218,7 @@ spring:
           uri: http://payment:8080
           predicates:
             - Path=/payments/** 
-        - id: house
+        - id: carmanagement
           uri: http://carmanagement:8080
           predicates:
             - Path=/carmanagements/** 
@@ -261,11 +261,11 @@ public class Payment {
         this.id = id;
     }
     
-    public Long gethouseId() {
-        return houseId;
+    public Long getReservationId() {
+        return reservationId;
     }
-    public void sethouseId(Long houseId) {
-        this.houseId = houseId;
+    public void setReservationId(Long reservationId) {
+        this.reservationId = reservationId;
     }
     .../... 중략  .../...
 
@@ -277,7 +277,7 @@ public class Payment {
 - Entity Pattern 과 Repository Pattern 을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB or NoSQL) 에 대한 별도의 처리가 없도록    
 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용
 ```
-package housebook;
+package carrental;
 import org.springframework.data.repository.PagingAndSortingRepository;
     public interface PaymentRepository extends PagingAndSortingRepository<Payment, Long>{
 
@@ -288,32 +288,38 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 ---
 #### 적용 후 REST API 의 테스트
 
-1. 숙소1 등록
-``` http http://localhost:8083/houses id=1 status=WAITING houseName=신라호텔 housePrice=200000 ```
+1. 렌트카1 등록
+``` http POST http://localhost:8083/carManagements carNo=1111 status=WAITING carPrice=30000000 ```
 
-<img width="457" alt="숙소등록1" src="https://user-images.githubusercontent.com/54618778/96413666-f0074e80-1226-11eb-88ca-1278f0077fc9.png">
-
-
-2. 숙소2 등록
-``` http http://localhost:8083/houses id=2 status=WAITING houseName=SK펜션 housePrice=500000 ```
-
-<img width="463" alt="숙소등록2" src="https://user-images.githubusercontent.com/54618778/96413673-f269a880-1226-11eb-9b1e-62ad3f98cd30.png">
+![렌트카등록1](https://user-images.githubusercontent.com/54618778/96792995-76de4600-1436-11eb-93a1-1a95edd8c2c4.png)
 
 
-3. 숙소1 예약 
-``` http POST http://localhost:8081/books id=1 status=BOOKED houseId=1 bookDate=20201016 housePrice=200000 ```
+2. 렌트카2 등록
+``` http POST http://localhost:8083/carManagements carNo=2222 status=WAITING carPrice=50000000 ```
 
-<img width="448" alt="숙소예약1" src="https://user-images.githubusercontent.com/54618778/96413678-f4336c00-1226-11eb-8665-1ed312adbed1.png">
-
-
-4. 숙소2 예약
-``` http POST http://localhost:8081/books id=2 status=BOOKED houseId=2 bookDate=20201016 housePrice=500000 ```
-
-<img width="450" alt="숙소예약2" src="https://user-images.githubusercontent.com/54618778/96413681-f4cc0280-1226-11eb-8f6c-f3d0e03c0456.png">
+![렌트카등록2](https://user-images.githubusercontent.com/54618778/96793000-78a80980-1436-11eb-8b8a-d1a98795842e.png)
 
 
-5. 숙소2 예약 취소
-``` http http://localhost:8081/books id=2 status=BOOK_CANCELED houseId=2 ```
+3. 등록된 렌트카 조회
+``` http localhost:8083/carManagements ```
+
+![렌트카조회](https://user-images.githubusercontent.com/54618778/96793001-7940a000-1436-11eb-8648-af61e3bd5cf9.png)
+
+
+4. 렌트카1 예약 
+``` http POST http://localhost:8081/reservations carNo=1111 reserveDate=20201020 status=RESERVED carPrice=30000000 ```
+
+![예약1](https://user-images.githubusercontent.com/54618778/96793005-7a71cd00-1436-11eb-8828-e5424ee16580.png)
+
+
+5. 렌트카2 예약
+``` http POST http://localhost:8081/reservations carNo=2222 reserveDate=20201021 status=RESERVED carPrice=50000000 ```
+
+![예약2](https://user-images.githubusercontent.com/54618778/96793007-7b0a6380-1436-11eb-96cc-0693155cb173.png)
+
+
+6. 렌트카1 예약 취소
+``` http http://localhost:8081/reservations carNo=1111 reserveCancelDate=20201020 status=RESERVATION_CANCELED ```
 
 <img width="451" alt="숙소취소" src="https://user-images.githubusercontent.com/54618778/96413687-f5fd2f80-1226-11eb-87fd-2f8c7ea695c5.png">
 
@@ -321,10 +327,10 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 6. 예약 보기
 ```http localhost:8081/books ```
 
-<img width="573" alt="예약상태보기" src="https://user-images.githubusercontent.com/54618778/96413688-f695c600-1226-11eb-9659-11ba9322f19d.png">
+![예약보기](https://user-images.githubusercontent.com/54618778/96793009-7ba2fa00-1436-11eb-8dc5-34bfbff2a7b4.png)
 
 
-7. 숙소 보기 
+7. 렌트카관리 보기 
 ``` http localhost:8083/houses ```
 
 <img width="591" alt="숙소상태보기" src="https://user-images.githubusercontent.com/54618778/96413674-f3023f00-1226-11eb-830e-d6ab51cb745b.png">
