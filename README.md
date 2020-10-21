@@ -321,7 +321,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 6. 렌트카1 예약 취소
 ``` http http://localhost:8081/reservations carNo=1111 reserveCancelDate=20201020 status=RESERVATION_CANCELED ```
 
-<img width="451" alt="숙소취소" src="https://user-images.githubusercontent.com/54618778/96413687-f5fd2f80-1226-11eb-87fd-2f8c7ea695c5.png">
+![렌트카예약취소](https://user-images.githubusercontent.com/54618778/96793501-7db98880-1437-11eb-824e-832619559993.png)
 
 
 6. 예약 보기
