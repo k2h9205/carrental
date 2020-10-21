@@ -1,6 +1,6 @@
 # Table of contents
 
-- [숙소예약](#---)
+- [렌트카 예약](#---)
   - [서비스 시나리오](#서비스-시나리오)
   - [체크포인트](#체크포인트)
   - [분석/설계](#분석설계)
@@ -22,13 +22,13 @@
 
 
 기능적 요구사항
-1.	관리자는 숙소를 등록할 수 있다.
-2.	고객이 숙소를 선택해 예약하면 결제가 진행된다.
-3.	예약이 결제되면 숙소의 예약 가능 여부가 변경된다.
-4.	숙소가 예약 불가 상태로 변경되면 예약이 확정된다.
+1.	매니저는 렌트카를 등록할 수 있다.
+2.	고객이 렌트카를 선택해 예약하면 결제가 진행된다.
+3.	예약이 결제되면 렌트카의 예약 가능 여부가 변경된다.
+4.	렌트카가 예약 불가 상태로 변경되면 예약이 확정된다.
 5.	고객은 예약을 취소할 수 있다.
-6.	예약이 취소되면 결제가 취소되고 숙소의 예약 가능 여부가 변경된다.
-7.	고객은 숙소 예약가능여부를 확인할 수 있다.
+6.	예약이 취소되면 결제가 취소되고, 렌트카의 예약 가능 여부가 변경된다.
+7.	고객은 렌트카 예약가능여부를 확인할 수 있다.
 
 
 
@@ -39,12 +39,12 @@
     1. 예약과 결제는 동시에 진행된다.  Sync 호출
     1. 예약 취소와 결제 취소는 동시에 진행된다.  Sync 호출
 1. 장애격리
-    1. 숙소 시스템이 수행되지 않더라도 예약 / 결제는365일 24시간 받을 수 있어야 한다.  Async 호출 (event-driven)
-    1. 숙소 시스템이 과중 되면 예약 / 결제를 받지 않고 결제 취소를 잠시 후에 하도록 유도한다.  Circuit breaker, fallback
-    1. 결제가 취소되면 숙소의 예약 취소가 확정되고, 숙소의 예약 가능 여부가 변경된다.  Circuit breaker, fallback
+    1. 렌트카관리 시스템이 수행되지 않더라도 예약 / 결제는 365일 24시간 받을 수 있어야 한다.  Async 호출 (event-driven)
+    1. 렌트카관리 시스템이 과중되면 예약 / 결제를 받지 않고 결제 취소를 잠시 후에 하도록 유도한다.  Circuit breaker, fallback
+    1. 결제가 취소되면 렌트카의 예약 취소가 확정되고, 렌트카의 예약 가능 여부가 변경된다.  Circuit breaker, fallback
 1. 성능
-    1. 고객은 숙소 예약 가능 여부를 확인할 수 있다.  CQRS
-    1. 예약/결제 취소 정보가 변경 될 때마다 숙소 예약 가능 여부가 변경 될 수 있어야 한다.  Event Driven
+    1. 고객은 렌트카 예약 가능 여부를 확인할 수 있다.  CQRS
+    1. 예약/결제 취소 정보가 변경 될 때마다 렌트카 예약 가능 여부가 변경 될 수 있어야 한다.  Event Driven
 
 
 
@@ -81,7 +81,7 @@
     - 도메인 서열 분리 
         - 예약 : 고객 예약 오류를 최소화 한다. (Core)
         - 결제 : 결제 오류를 최소화 한다. (Supporting)
-        - 숙소 : 숙소 예약 상태 오류를 최소화 한다. (Supporting)
+        - 렌트카관리 : 렌트카 예약 상태 오류를 최소화 한다. (Supporting)
 
 ### 폴리시 부착 (괄호는 수행주체, 폴리시 부착을 둘째단계에서 해놔도 상관 없음. 전체 연계가 초기에 드러남)
 
@@ -101,11 +101,11 @@
 
 ![image](https://user-images.githubusercontent.com/70302894/96394204-5c208d00-11fc-11eb-9ac7-f15fb95d5fac.jpg)
 
-    - 고객이 숙소 예약 가능 여부를 확인한다.(?)
-    - 고객이 숙소를 선택해 예약을 진행한다. (OK)
+    - 고객이 렌트카 예약 가능 여부를 확인한다.(?)
+    - 고객이 렌트카를 선택해 예약을 진행한다. (OK)
     - 예약 시 자동으로 결제가 진행된다. (OK)
-    - 결제가 성공하면 숙소가 예약불가 상태가 된다. (OK)
-    - 숙소 상태 변경 시 예약이 확정상태가 된다. (OK)    
+    - 결제가 성공하면 렌트카가 예약불가 상태가 된다. (OK)
+    - 렌트카 상태 변경 시 예약이 확정상태가 된다. (OK)    
     
 
 
@@ -118,7 +118,7 @@
 
     - 고객이 예약/결제를 취소한다. (OK)
     - 예약/결제 취소 시 자동 예약/결제 취소된다. (OK)
-    - 결제가 취소되면 숙소가 예약가능 상태가 된다. (OK)
+    - 결제가 취소되면 렌트카는 예약가능 상태가 된다. (OK)
 
 
 
@@ -138,9 +138,9 @@
 ![image](https://user-images.githubusercontent.com/70302894/96396179-8aed3200-1201-11eb-9ef9-ff872125f76e.jpg)
 
 
-    - 숙소 등록 서비스를 예약/결제 서비스와 격리하여 숙소 등록 서비스 장애 시에도 예약이 가능
-    - 숙소가 예약 불가 상태일 경우 예약 확정이 불가함
-    - 먼저 결제가 이루어진 숙소에 대해서는 예약을 불가 하도록 함.    
+    - 렌트카 등록 서비스를 예약/결제 서비스와 격리하여 렌트카 등록 서비스 장애 시에도 예약이 가능
+    - 렌트카가 예약 불가 상태일 경우 예약 확정이 불가함
+    - 먼저 결제가 이루어진 렌트카에 대해서는 예약을 불가 하도록 함.    
 
 
 
@@ -165,13 +165,13 @@
 분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 단계별로 대변되는 마이크로 서비스들을 스프링부트로 구현하였다. 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 808n 이다)
 
 ```
-cd book
+cd reservation
 mvn spring-boot:run
 
 cd payment
 mvn spring-boot:run 
 
-cd house
+cd carmanagement
 mvn spring-boot:run  
 
 cd mypage
@@ -185,18 +185,18 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: book
+        - id: reservation
           uri: http://localhost:8081
           predicates:
-            - Path=/books/** 
+            - Path=/reservations/** 
         - id: payment
           uri: http://localhost:8082
           predicates:
             - Path=/payments/** 
-        - id: house
+        - id: carManagement
           uri: http://localhost:8083
           predicates:
-            - Path=/houses/** 
+            - Path=/carManagements/** 
         - id: mypage
           uri: http://localhost:8084
           predicates:
@@ -210,18 +210,18 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: book
-          uri: http://book:8080
+        - id: reservation
+          uri: http://reservation:8080
           predicates:
-            - Path=/books/** 
+            - Path=/reservations/** 
         - id: payment
           uri: http://payment:8080
           predicates:
             - Path=/payments/** 
         - id: house
-          uri: http://house:8080
+          uri: http://carmanagement:8080
           predicates:
-            - Path=/houses/** 
+            - Path=/carmanagements/** 
         - id: mypage
           uri: http://mypage:8080
           predicates:
@@ -237,7 +237,7 @@ spring:
 - 각 서비스 내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언
 - 각 서비스는 연동 서비스의 key id를 가지고 있어 어떤 건에 대한 요청인지 구별 가능하다. (Correlation-key)
 ```
-package housebook;
+package carrental;
 
 import org.springframework.beans.BeanUtils;
 
@@ -373,7 +373,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 
 ## 동기식 호출과 Fallback 처리
-Book → Payment 간 호출은 동기식 일관성 유지하는 트랜잭션으로 처리.     
+Reservation → Payment 간 호출은 동기식 일관성 유지하는 트랜잭션으로 처리.     
 호출 프로토콜은 이미 앞서 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출.     
 
 ```
@@ -383,10 +383,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableBinding(KafkaProcessor.class)
 @EnableFeignClients
-public class BookApplication {
+public class ReservationApplication {
     protected static ApplicationContext applicationContext;
     public static void main(String[] args) {
-        applicationContext = SpringApplication.run(BookApplication.class, args);
+        applicationContext = SpringApplication.run(ReservationApplication.class, args);
     }
 }
 ```
@@ -400,24 +400,24 @@ Feign 방식은 넷플릭스에서 만든 Http Client로 Http call을 할 때, �
 
 - 예약 받은 직후(@PostPersist) 결제 요청함
 ```
--- Book.java
+-- Reservation.java
     @PostPersist
     public void onPostPersist(){
-        Booked booked = new Booked();
-        BeanUtils.copyProperties(this, booked);
-        booked.publishAfterCommit();
+        Reserved reserved = new Reserved();
+        BeanUtils.copyProperties(this, reserved);
+        reserved.publishAfterCommit();
 
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
-        housebook.external.Payment payment = new housebook.external.Payment();
+        carrental.external.Payment payment = new carrental.external.Payment();
         // mappings goes here
         
-        payment.setBookId(booked.getId());
-        payment.setHouseId(booked.getHouseId());
+        payment.setCarNo(this.getCarNo());
+        payment.setStatus(reserved.getStatus());
         ...// 중략 //...
 
-        BookApplication.applicationContext.getBean(housebook.external.PaymentService.class)
+        ReservationApplication.applicationContext.getBean(carrental.external.PaymentService.class)
             .paymentRequest(payment);
 
     }
@@ -427,12 +427,12 @@ Feign 방식은 넷플릭스에서 만든 Http Client로 Http call을 할 때, �
 
 - 동기식 호출에서는 호출 시간에 따른 타임 커플링이 발생하며, 결제 시스템이 장애가 나면 주문도 못받는다는 것을 확인함.   
 ```
-Book -- (http request/response) --> Payment
+Reservation -- (http request/response) --> Payment
 
 # Payment 서비스 종료
 
-# Book 등록
-http http://localhost:8081/books id=1 status=BOOKED houseId=1 bookDate=20201016 housePrice=200000    #Fail!!!!
+# Reservation 등록
+http POST http://localhost:8081/reservations carNo=1111 reserveDate=20201020 status=RESERVED carPrice=30000000    #Fail!!!!
 ```
 Payment를 종료한 시점에서 상기 Book 등록 Script 실행 시, 500 Error 발생.
 ("Could not commit JPA transaction; nested exception is javax.persistence.RollbackException: Error while committing the transaction")   
@@ -442,17 +442,17 @@ Payment를 종료한 시점에서 상기 Book 등록 Script 실행 시, 500 Erro
 ---
 ## 비동기식 호출 / 시간적 디커플링 / 장애격리 / 최종 (Eventual) 일관성 테스트
 
-Payment가 이루어진 후에(PAID) House시스템으로 이를 알려주는 행위는 동기식이 아니라 비 동기식으로 처리.   
-House 시스템의 처리를 위하여 결제주문이 블로킹 되지 않아도록 처리.   
+Payment가 이루어진 후에(PAID) CarManagement시스템으로 이를 알려주는 행위는 동기식이 아니라 비 동기식으로 처리.   
+CarManagement 시스템의 처리를 위하여 결제주문이 블로킹 되지 않아도록 처리.   
 이를 위하여 결제이력에 기록을 남긴 후에 곧바로 결제승인이 되었다는 도메인 이벤트를 카프카로 송출한다(Publish).   
 
-- House 서비스에서는 PAID 이벤트에 대해서 이를 수신하여 자신의 정책을 처리하도록 PolicyHandler 를 구현한다:   
+- CarManagement 서비스에서는 PAID 이벤트에 대해서 이를 수신하여 자신의 정책을 처리하도록 PolicyHandler 를 구현한다:   
 ```
 @Service
 public class PolicyHandler{
 
     @Autowired
-    HouseRepository houseRepository;
+    CarManagementRepository carManagementRepository;
     
     @StreamListener(KafkaProcessor.INPUT)
     public void onStringEventListener(@Payload String eventString){
@@ -460,36 +460,36 @@ public class PolicyHandler{
     }
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverPaid_Rent(@Payload Paid paid){
+    public void wheneverPaid_Rental(@Payload Paid paid){
+
         if(paid.isMe()){
-            System.out.println("##### listener Rent : " + paid.toJson());
+            System.out.println("##### listener Rental : " + paid.toJson());
 
-            Optional<House> optional = houseRepository.findById(paid.getHouseId());
-            House house = optional.get();
-            house.setBookId(paid.getBookId());
-            house.setStatus("RENTED");
-
-            houseRepository.save(house);
+            List<CarManagement> optional = carManagementRepository.findByCarNo(paid.getCarNo());
+            for(CarManagement carManagement : optional) {
+                carManagement.setStatus("RENTED");
+                carManagementRepository.save(carManagement);
+            }
         }
     }
 ```
 
-- House 시스템은 주문/결제와 완전히 분리되어있으며, 이벤트 수신에 따라 처리되기 때문에, House 시스템이 유지보수로 인해 잠시 내려간 상태라도 주문을 받는데 문제가 없다:
+- CarManagement 시스템은 주문/결제와 완전히 분리되어있으며, 이벤트 수신에 따라 처리되기 때문에, CarManagement 시스템이 유지보수로 인해 잠시 내려간 상태라도 주문을 받는데 문제가 없다:
 ```
-# House Service 를 잠시 내려놓음 (ctrl+c)
+# CarManagement Service 를 잠시 내려놓음 (ctrl+c)
 
 #PAID 처리
-http http://localhost:8082/payments id=1 status=PAID bookId=1 houseId=1 paymentDate=20201016 housePrice=200000 #Success!!
+http http://localhost:8082/payments status=PAID carNo=1111 houseId=1 paymentDate=20201021  #Success!!
 
 #결제상태 확인
 http http://localhost:8082/payments  #제대로 Data 들어옴   
 
-#House 서비스 기동
-cd house
+#CarManagement 서비스 기동
+cd carmanagement
 mvn spring-boot:run
 
-#House 상태 확인
-http http://localhost:8083/houses     # 제대로 kafka로 부터 data 수신 함을 확인
+#CarManagement 상태 확인
+http http://localhost:8083/carManagements     # 제대로 kafka로 부터 data 수신 함을 확인
 ```
 
 
@@ -515,7 +515,7 @@ Webhook으로 연결되어 github에서 수정 시 혹은 codebuild에서 곧바
 
 * 서킷 브레이킹 프레임워크의 선택: Spring FeignClient + Hystrix 옵션을 사용하여 구현함
 
-시나리오는 book -> payment 시의 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 결제 요청이 과도할 경우 CB 를 통하여 장애격리.
+시나리오는 reservation -> payment 시의 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 결제 요청이 과도할 경우 CB 를 통하여 장애격리.
 
 - Hystrix 를 설정:  application.yml에 요청처리 쓰레드에서 처리시간이 610 밀리가 넘어서기 시작하여 어느정도 유지되면 CB 회로가 닫히도록 (요청을 빠르게 실패처리, 차단) 설정
 
@@ -537,12 +537,12 @@ Webhook으로 연결되어 github에서 수정 시 혹은 codebuild에서 곧바
             e.printStackTrace();
         }
         
-        if (this.getStatus().equals("BOOKED") || this.getStatus().equals("PAID")) {
+        if(this.getStatus().equals("RESERVED")) {
             Paid paid = new Paid();
             BeanUtils.copyProperties(this, paid);
             paid.setStatus("PAID");
             paid.publishAfterCommit();
-        }
+        } 
     }
 ```
 
@@ -672,7 +672,7 @@ watch kubectl get deploy skccuser04-payment -n istio-cb-ns
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
 ```
-siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser04-payment:8080/payments POST {"id":"1","houseId":"1","bookId":"1","status":"BOOKED"}'
+siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser28-payment:8080/payments POST {"id":"1","houseId":"1","bookId":"1","status":"BOOKED"}'
 ```
 
 - 코드빌드에서 재빌드 
@@ -726,7 +726,7 @@ siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser04-paymen
 
 
 # configmap
-house 서비스의 경우, 국가와 지역에 따라 설정이 변할 수도 있음을 가정할 수 있다.   
+carmanagement 서비스의 경우, 국가와 지역에 따라 설정이 변할 수도 있음을 가정할 수 있다.   
 configmap에 설정된 국가와 지역 설정을 house 서비스에서 받아 사용 할 수 있도록 한다.   
    
 아래와 같이 configmap을 생성한다.   
@@ -737,7 +737,7 @@ kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: house-region
+  name: carmanagement-region
   namespace: istio-cb-ns
 data:
   country: "korea"
@@ -745,29 +745,29 @@ data:
 EOF
 ```
  
-house deployment를 위에서 생성한 house-region(cm)의 값을 사용 할 수 있도록 수정한다.
+carmanagement deployment를 위에서 생성한 carmanagement-region(cm)의 값을 사용 할 수 있도록 수정한다.
 ###### configmap내용을 deployment에 적용 
 ``` yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: house
+  name: carmanagement
   labels:
-    app: house
+    app: carmanagement
 ...
     spec:
       containers:
-        - name: house
+        - name: carmanagement
           env:                                                 ##### 컨테이너에서 사용할 환경 변수 설정
             - name: COUNTRY
               valueFrom:
                 configMapKeyRef:
-                  name: house-region
+                  name: carmanagement-region
                   key: country
             - name: REGION
               valueFrom:
                 configMapKeyRef:
-                  name: house-region
+                  name: carmanagement-region
                   key: region
           volumeMounts:                                                 ##### CM볼륨을 바인딩
           - name: config
@@ -777,7 +777,7 @@ metadata:
       volumes:                                                 ##### CM 볼륨 
       - name: config
         configMap:
-          name: house-region
+          name: carmanagement-region
 ```
 configmap describe 시 확인 가능
 
