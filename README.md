@@ -624,21 +624,9 @@ watch kubectl get deploy skccuser04-payment -n istio-cb-ns
 * 먼저 무정지 재배포가 100% 되는 것인지 확인하기 위해서 Autoscaler 이나 Readiness Probe 미설정 시 무정지 재배포 가능여부 확인을 위해 buildspec.yml의 Readiness Probe 설정을 제거함
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
-```
-siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser28-payment:8080/payments POST {"id":"1","houseId":"1","bookId":"1","status":"BOOKED"}'
-```
+![무정지 readiness 제거](https://user-images.githubusercontent.com/54618778/96843984-ea5d7300-1489-11eb-8b5e-23aa204cb6a6.JPG)
 
-- 코드빌드에서 재빌드 
-
-![image](https://user-images.githubusercontent.com/70302894/96588975-3dff7d80-131f-11eb-9018-6527b1907591.JPG)
-
-
-
-- seige 의 화면으로 넘어가서 Availability 가 100% 미만으로 떨어졌는지 확인
-
-<img width="594" alt="무정지" src="https://user-images.githubusercontent.com/7261288/96663462-abe18e80-138b-11eb-8a5d-59d11ac07491.png">
-
-배포기간중 Availability 가 평소 100%에서 70% 대로 떨어지는 것을 확인. 원인은 쿠버네티스가 성급하게 새로 올려진 서비스를 READY 상태로 인식하여 서비스 유입을 진행한 것이기 때문. 이를 막기위해 Readiness Probe 와 liveness Prove 설정을 다시 추가:
+배포기간중 Availability 가 평소 100%에서 90% 대로 떨어지는 것을 확인. 원인은 쿠버네티스가 성급하게 새로 올려진 서비스를 READY 상태로 인식하여 서비스 유입을 진행한 것이기 때문. 이를 막기위해 Readiness Probe 와 liveness Prove 설정을 다시 추가:
 
 ```
 # deployment.yaml 에 readiness probe 설정
@@ -655,14 +643,7 @@ siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser28-paymen
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 10
-          livenessProbe:
-            httpGet:
-              path: '/actuator/health'
-              port: 8080
-            initialDelaySeconds: 120
-            timeoutSeconds: 2
-            periodSeconds: 5
-            failureThreshold: 5
+
 
 
 ```
@@ -670,12 +651,10 @@ siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser28-paymen
 
 ![image](https://user-images.githubusercontent.com/70302894/96663164-1b0ab300-138b-11eb-9286-94a73c09cff4.JPG)
 
-
 배포기간 동안 Availability 가 변화없기 때문에 무정지 재배포가 성공한 것으로 확인됨.
 
-또한 Liveness Probe가 적용되어있어 kubectl get all -n istio-cb-ns에서 확인 시 자동으로 Restart 됨 (하단이미지 Restart 횟수 확인가능)
+![무정지 추가](https://user-images.githubusercontent.com/54618778/96843987-eb8ea000-1489-11eb-8368-cdaf01430569.JPG)
 
-![라이브네스 전](https://user-images.githubusercontent.com/70302894/96665219-5c9d5d00-138f-11eb-8c62-ad9ade0bc248.JPG)
 
 
 # configmap
