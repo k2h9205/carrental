@@ -583,9 +583,9 @@ EOF
 
 - 결제서비스에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 설정은 CPU 사용량이 10프로를 넘어서면 replica 를 10개까지 늘려준다:
 ```
-kubectl autoscale deploy skccuser04-payment --min=1 --max=10 --cpu-percent=10 -n istio-cb-ns
+kubectl autoscale deploy payment --min=1 --max=10 --cpu-percent=10 -n istio-cb-ns
 
-kubectl autoscale deployment.apps/skccuser04-payment --cpu-percent=10 --min=1 --max=10 -n istio-cb-ns
+kubectl autoscale deployment.apps/payment --cpu-percent=10 --min=1 --max=10 -n istio-cb-ns
 ```
 
 오토스케일을 위한 metrics-server를 설치하고 배포한다. 적용한 istrio injection을 해제한다.
@@ -599,11 +599,11 @@ kubectl label namespace istio-cb-ns istio-injection=disabled --overwrite
 ```
 - CB 에서 했던 방식대로 워크로드를 120초 동안 걸어준다.
 ```
-siege -c20 -t120S -v  --content-type "application/json" 'http://skccuser04-payment:8080/payments POST {"id":"1","houseId":"1","bookId":"1","status":"BOOKED"}'
+siege -c20 -t120S -v  --content-type "application/json" 'http://payment:8080/payments POST {"id":"1","houseId":"1","bookId":"1","status":"BOOKED"}'
 ```
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
 ```
-watch kubectl get deploy skccuser04-payment -n istio-cb-ns
+watch kubectl get deploy payment -n istio-cb-ns
 ```
 - 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다:
 
