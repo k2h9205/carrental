@@ -607,7 +607,9 @@ watch kubectl get deploy skccuser04-payment -n istio-cb-ns
 ```
 - 어느정도 시간이 흐른 후 (약 30초) 스케일 아웃이 벌어지는 것을 확인할 수 있다:
 
-![image](https://user-images.githubusercontent.com/70302894/96588282-6d61ba80-131e-11eb-8f75-90e10ef6f203.JPG)
+
+![오토스케일링](https://user-images.githubusercontent.com/54618778/96845620-d7e43900-148b-11eb-9ddd-dd12b1546c17.JPG)
+
 
 - siege 의 로그를 보아도 전체적인 성공률이 높아진 것을 확인 할 수 있다. 
 
