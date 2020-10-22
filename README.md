@@ -538,7 +538,7 @@ Webhook으로 연결되어 github에서 수정 시 혹은 codebuild에서 곧바
 
 일단 서킷브레이커 미적용 시, 모든 요청이 성공했음을 확인
 
-![image](https://user-images.githubusercontent.com/70302894/96579636-1e158d00-1312-11eb-9a17-277b3caf3876.JPG)
+![미적용100](https://user-images.githubusercontent.com/54618778/96838656-188b8480-1483-11eb-84f8-3a35bc86eb3a.JPG)
 
 
 데스티네이션 룰 적용
@@ -564,15 +564,11 @@ spec:
 EOF
 ```
 적용 후 부하테스트 시 서킷브레이커의 동작으로 미연결된 결과가 보임
-- 동시사용자 20명
-- 20초 동안 실시
-```
-siege -c20 -t20S -v  --content-type "application/json" 'http://payment:8080/payments POST {"id":"1","status":"PAID"}'
-```
 
-![image](https://user-images.githubusercontent.com/70302894/96579639-1f46ba00-1312-11eb-8b13-1c552b108711.JPG)
+![적용84](https://user-images.githubusercontent.com/54618778/96838659-19bcb180-1483-11eb-8840-af748eabdd48.JPG)
 
-78%정도의 요청 성공률 확인
+
+80%정도의 요청 성공률 확인
 
 ![image](https://user-images.githubusercontent.com/70302894/96579632-1ce46000-1312-11eb-8c7a-8aff5c351056.JPG)
 
@@ -584,35 +580,6 @@ siege -c20 -t20S -v  --content-type "application/json" 'http://payment:8080/paym
 
 
 - 운영시스템은 죽지 않고 지속적으로 CB 에 의하여 적절히 회로가 열림과 닫힘이 벌어지면서 자원을 보호하고 있음을 보여줌. 하지만, 더 과부하를 걸면 반 이상이 실패 Retry 설정과 동적 Scale out (replica의 자동적 추가,HPA) 을 통하여 시스템을 확장 해주는 후속처리가 필요.
-
-
-- Retry 의 설정 (istio)
-
-```
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: vs-order-network-rule
-  namespace: istio-cb-ns
-spec:
-  hosts:
-  - book
-  http:
-  - route:
-    - destination:
-        host: payment
-    timeout: 3s
-    retries:
-      attempts: 3
-      perTryTimeout: 2s
-      retryOn: 5xx,retriable-4xx,gateway-error,connect-failure,refused-stream
-EOF
-```
-
-
-- Availability 가 높아진 것을 확인 (siege)
-
 
 
 
