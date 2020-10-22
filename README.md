@@ -137,6 +137,7 @@
 ### 비기능 요구사항에 대한 검증
 
 ![image](https://user-images.githubusercontent.com/70302894/96396179-8aed3200-1201-11eb-9ef9-ff872125f76e.jpg)
+![5](https://user-images.githubusercontent.com/54618778/96827618-ea9d4480-1470-11eb-858b-e7e0a7075af6.png)
 
 
     - 렌트카 등록 서비스를 예약/결제 서비스와 격리하여 렌트카 등록 서비스 장애 시에도 예약이 가능
