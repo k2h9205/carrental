@@ -109,8 +109,7 @@
     - 렌트카 상태 변경 시 예약이 확정상태가 된다. (OK)    
     
 
-![555](https://user-images.githubusercontent.com/54618778/96828062-db6ac680-1471-11eb-8306-3e6bfe9c8f4e.png)
-
+![777](https://user-images.githubusercontent.com/54618778/96828477-b88ce200-1472-11eb-962a-6629e996f183.png)
 
     - 고객이 예약/결제를 취소한다. (OK)
     - 예약/결제 취소 시 자동 예약/결제 취소된다. (OK)
@@ -123,7 +122,8 @@
 
 ### 모델 수정
 
-![image](https://user-images.githubusercontent.com/70302894/96394207-5d51ba00-11fc-11eb-80d9-1d5bb4356b1a.JPG)
+![666](https://user-images.githubusercontent.com/54618778/96828417-9b581380-1472-11eb-9a6c-44ed995fdf09.png)
+
     
     - View Model 추가
     - 수정된 모델은 모든 요구사항을 커버함.
@@ -131,8 +131,8 @@
 
 ### 비기능 요구사항에 대한 검증
 
-![image](https://user-images.githubusercontent.com/70302894/96396179-8aed3200-1201-11eb-9ef9-ff872125f76e.jpg)
-![5](https://user-images.githubusercontent.com/54618778/96827618-ea9d4480-1470-11eb-858b-e7e0a7075af6.png)
+![666](https://user-images.githubusercontent.com/54618778/96828417-9b581380-1472-11eb-9a6c-44ed995fdf09.png)
+
 
 
     - 렌트카 등록 서비스를 예약/결제 서비스와 격리하여 렌트카 등록 서비스 장애 시에도 예약이 가능
