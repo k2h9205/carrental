@@ -65,18 +65,18 @@
 
 
 ### 이벤트 도출
-![image](https://user-images.githubusercontent.com/70302894/96394182-54f97f00-11fc-11eb-9100-41032900dbcf.JPG)
+![1](https://user-images.githubusercontent.com/54618778/96805071-af3c4f00-144b-11eb-971b-4a71ba7fc504.png)
 
 
 
 ### 어그리게잇으로 묶기 / 액터, 커맨드 부착하여 읽기 좋게
-![image](https://user-images.githubusercontent.com/70302894/96394196-59259c80-11fc-11eb-9127-461cd5522b87.JPG)
+![2](https://user-images.githubusercontent.com/54618778/96805078-b2cfd600-144b-11eb-9f1f-3fc83f95136e.png)
 
-    - 숙소 예약, 결제, 숙소 관리 등은 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 묶어준다.
+    - 렌트카 예약, 결제, 렌트카 관리 등은 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 묶어준다.
 
 ### 바운디드 컨텍스트로 묶기
 
-![image](https://user-images.githubusercontent.com/70302894/96394197-59be3300-11fc-11eb-9342-1106528fcb0c.JPG)
+![3](https://user-images.githubusercontent.com/54618778/96805076-b2cfd600-144b-11eb-8dbb-ac5188c57a43.png)
 
     - 도메인 서열 분리 
         - 예약 : 고객 예약 오류를 최소화 한다. (Core)
