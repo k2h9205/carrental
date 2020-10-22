@@ -713,4 +713,5 @@ metadata:
 ```
 configmap describe 시 확인 가능
 
-![컨픽맵2](https://user-images.githubusercontent.com/70302894/96668946-37145180-1397-11eb-8465-0a34c4e271f4.JPG)
+![11111122222](https://user-images.githubusercontent.com/54618778/96846299-ad46b000-148c-11eb-9ea9-b7135a1bae58.png)
+
