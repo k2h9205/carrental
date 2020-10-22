@@ -564,10 +564,6 @@ spec:
 EOF
 ```
 적용 후 부하테스트 시 서킷브레이커의 동작으로 미연결된 결과가 보임
-
-![적용84](https://user-images.githubusercontent.com/54618778/96838659-19bcb180-1483-11eb-8840-af748eabdd48.JPG)
-
-
 80%정도의 요청 성공률 확인
 
 ![image](https://user-images.githubusercontent.com/70302894/96579632-1ce46000-1312-11eb-8c7a-8aff5c351056.JPG)
