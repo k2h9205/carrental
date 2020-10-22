@@ -498,12 +498,9 @@ http http://localhost:8083/carManagements     # 제대로 kafka로 부터 data �
 
 각 구현체들은 각자의 source repository 에 구성되었고, 사용한 CI/CD 플랫폼은 AWS CodeBuild를 사용하였으며, pipeline build script 는 각 프로젝트 폴더 이하에 buildspec.yml 에 포함되었다.
 
-![image](https://user-images.githubusercontent.com/70302894/96580324-160a1d00-1313-11eb-97d3-ba0b269a658e.JPG)
-
 Webhook으로 연결되어 github에서 수정 시 혹은 codebuild에서 곧바로 빌드가 가능하다.
 
-![image](https://user-images.githubusercontent.com/70302894/96580321-15718680-1313-11eb-9cac-e2407f7579d1.JPG)
-
+![빌드1](https://user-images.githubusercontent.com/54618778/96833416-5c7a8b80-147b-11eb-8766-9bca5745a898.JPG)
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 
