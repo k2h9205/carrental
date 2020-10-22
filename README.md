@@ -285,65 +285,56 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 ---
 #### 적용 후 REST API 의 테스트
 
-1. 렌트카1 등록
+1. 렌트카1 등록(local)
 ``` http POST http://localhost:8083/carManagements carNo=1111 status=WAITING carPrice=30000000 ```
 
 ![렌트카등록1](https://user-images.githubusercontent.com/54618778/96792995-76de4600-1436-11eb-93a1-1a95edd8c2c4.png)
 
 
-2. 렌트카2 등록
+2. 렌트카2 등록(local)
 ``` http POST http://localhost:8083/carManagements carNo=2222 status=WAITING carPrice=50000000 ```
 
 ![렌트카등록2](https://user-images.githubusercontent.com/54618778/96793000-78a80980-1436-11eb-8b8a-d1a98795842e.png)
 
 
-3. 등록된 렌트카 조회
+3. 등록된 렌트카 조회(local)
 ``` http localhost:8083/carManagements ```
 
 ![렌트카조회](https://user-images.githubusercontent.com/54618778/96793001-7940a000-1436-11eb-8648-af61e3bd5cf9.png)
 
 
-4. 렌트카1 예약 
+4. 렌트카1 예약 (local)
 ``` http POST http://localhost:8081/reservations carNo=1111 reserveDate=20201020 status=RESERVED carPrice=30000000 ```
 
 ![예약1](https://user-images.githubusercontent.com/54618778/96793005-7a71cd00-1436-11eb-8828-e5424ee16580.png)
 
 
-5. 렌트카2 예약
+5. 렌트카2 예약(local)
 ``` http POST http://localhost:8081/reservations carNo=2222 reserveDate=20201021 status=RESERVED carPrice=50000000 ```
 
 ![예약2](https://user-images.githubusercontent.com/54618778/96793007-7b0a6380-1436-11eb-96cc-0693155cb173.png)
 
 
-6. 렌트카1 예약 취소
+6. 렌트카1 예약 취소(local)
 ``` http http://localhost:8081/reservations carNo=1111 reserveCancelDate=20201020 status=RESERVATION_CANCELED ```
 
 ![렌트카예약취소](https://user-images.githubusercontent.com/54618778/96793501-7db98880-1437-11eb-824e-832619559993.png)
 
 
-6. 예약 보기
+7. 예약 보기(local)
 ```http localhost:8081/books ```
 
 ![예약보기](https://user-images.githubusercontent.com/54618778/96793009-7ba2fa00-1436-11eb-8dc5-34bfbff2a7b4.png)
 
 
-7. 렌트카관리 보기 
-``` http localhost:8083/houses ```
 
-<img width="591" alt="숙소상태보기" src="https://user-images.githubusercontent.com/54618778/96413674-f3023f00-1226-11eb-830e-d6ab51cb745b.png">
+- 결제 요청 (aws)-> gateway 통한 api호출 확인!
 
+![결제(운영)](https://user-images.githubusercontent.com/54618778/96828969-934ca380-1473-11eb-8c0a-58961ea07eb8.png)
 
-8. 숙소 예약된 상태 (MyPage)
-``` http localhost:8084/mypages/7 ```
+- 뷰(mypage) 조회 (aws)
 
-<img width="569" alt="숙소예약된상태" src="https://user-images.githubusercontent.com/54618778/96413683-f5649900-1226-11eb-8ec6-a384afb76ead.png">
-
-
-9. 숙소 예약취소된 상태 (MyPage)
-``` http localhost:8084/mypages/9 ```
-
-<img width="545" alt="MyPage_예약취소" src="https://user-images.githubusercontent.com/54618778/96413690-f72e5c80-1226-11eb-9a1e-72df208097fc.png">
-
+![뷰(운영)](https://user-images.githubusercontent.com/54618778/96828977-98115780-1473-11eb-8c4e-d483a361757d.png)
 
 ---
 
