@@ -504,12 +504,9 @@ Webhook으로 연결되어 github에서 수정 시 혹은 codebuild에서 곧바
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 
-* 서킷 브레이킹 프레임워크의 선택: Spring FeignClient + Hystrix 옵션을 사용하여 구현함
-
+서킷 브레이킹은 istio 데스티네이션 룰을 이용하여 구현하였다.
 시나리오는 reservation -> payment 시의 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 결제 요청이 과도할 경우 CB 를 통하여 장애격리.
 
-
-![image](https://user-images.githubusercontent.com/70302894/96580900-f6bfbf80-1313-11eb-8210-4a4d96039f69.JPG)
 
 
 - 피호출 서비스(결제:payment) 의 추가로 임의 부하 처리 - 400 밀리에서 증감 220 밀리 정도 왔다갔다 하게 
