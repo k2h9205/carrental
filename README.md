@@ -614,7 +614,8 @@ watch kubectl get deploy skccuser04-payment -n istio-cb-ns
 
 - siege 의 로그를 보아도 전체적인 성공률이 높아진 것을 확인 할 수 있다. 
 
-![오토스케일링 결과](https://user-images.githubusercontent.com/70302894/96664104-07604c00-138d-11eb-9fed-9c7bd56bf879.JPG)
+![오토스케일 적용 90](https://user-images.githubusercontent.com/54618778/96840372-51c4f400-1485-11eb-867c-e7946d9b4077.JPG)
+
 
 
 
