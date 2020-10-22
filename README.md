@@ -624,7 +624,11 @@ watch kubectl get deploy skccuser04-payment -n istio-cb-ns
 * 먼저 무정지 재배포가 100% 되는 것인지 확인하기 위해서 Autoscaler 이나 Readiness Probe 미설정 시 무정지 재배포 가능여부 확인을 위해 buildspec.yml의 Readiness Probe 설정을 제거함
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
+
+
 ![무정지 readiness 제거](https://user-images.githubusercontent.com/54618778/96843984-ea5d7300-1489-11eb-8b5e-23aa204cb6a6.JPG)
+
+
 
 배포기간중 Availability 가 평소 100%에서 90% 대로 떨어지는 것을 확인. 원인은 쿠버네티스가 성급하게 새로 올려진 서비스를 READY 상태로 인식하여 서비스 유입을 진행한 것이기 때문. 이를 막기위해 Readiness Probe 와 liveness Prove 설정을 다시 추가:
 
@@ -644,14 +648,19 @@ watch kubectl get deploy skccuser04-payment -n istio-cb-ns
             periodSeconds: 5
             failureThreshold: 10
 
-
-
 ```
 - git commit 이후 자동배포 시 siege 돌리고 Availability 확인:
 
+
+
 ![image](https://user-images.githubusercontent.com/70302894/96663164-1b0ab300-138b-11eb-9286-94a73c09cff4.JPG)
 
+
+
 배포기간 동안 Availability 가 변화없기 때문에 무정지 재배포가 성공한 것으로 확인됨.
+
+
+
 
 ![무정지 추가](https://user-images.githubusercontent.com/54618778/96843987-eb8ea000-1489-11eb-8368-cdaf01430569.JPG)
 
