@@ -247,9 +247,9 @@ public class Payment {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-    private Long houseId;
+    private Long carNo;
     .../... 중략  .../...
-    private Double housePrice;
+    private Double carPrice;
 
     public Long getId() {
         return id;
@@ -258,11 +258,11 @@ public class Payment {
         this.id = id;
     }
     
-    public Long getReservationId() {
-        return reservationId;
+    public Long getCarNo() {
+        return carNo;
     }
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
+    public void setCarNo(Long carNo) {
+        this.carNo = carNo;
     }
     .../... 중략  .../...
 
