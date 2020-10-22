@@ -100,7 +100,7 @@
 
 ### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증
 
-![image](https://user-images.githubusercontent.com/70302894/96394204-5c208d00-11fc-11eb-9ac7-f15fb95d5fac.jpg)
+![555](https://user-images.githubusercontent.com/54618778/96828062-db6ac680-1471-11eb-8306-3e6bfe9c8f4e.png)
 
     - 고객이 렌트카 예약 가능 여부를 확인한다.(?)
     - 고객이 렌트카를 선택해 예약을 진행한다. (OK)
@@ -109,12 +109,7 @@
     - 렌트카 상태 변경 시 예약이 확정상태가 된다. (OK)    
     
 
-
-
-
-
-
-![image](https://user-images.githubusercontent.com/70302894/96394205-5cb92380-11fc-11eb-8801-afefc12aa9b1.jpg)
+![555](https://user-images.githubusercontent.com/54618778/96828062-db6ac680-1471-11eb-8306-3e6bfe9c8f4e.png)
 
 
     - 고객이 예약/결제를 취소한다. (OK)
