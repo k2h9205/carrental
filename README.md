@@ -567,7 +567,7 @@ EOF
 - 동시사용자 20명
 - 20초 동안 실시
 ```
-siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser04-payment:8080/payments POST {"houseId":"1"}'
+siege -c20 -t20S -v  --content-type "application/json" 'http://payment:8080/payments POST {"id":"1","status":"PAID"}'
 ```
 
 ![image](https://user-images.githubusercontent.com/70302894/96579639-1f46ba00-1312-11eb-8b13-1c552b108711.JPG)
@@ -581,7 +581,6 @@ siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser04-paymen
 
 예거 화면 캡쳐
 ![예거](https://user-images.githubusercontent.com/70302894/96673034-8743e180-13a0-11eb-9617-d9ab5149590f.JPG)
-
 
 
 - 운영시스템은 죽지 않고 지속적으로 CB 에 의하여 적절히 회로가 열림과 닫힘이 벌어지면서 자원을 보호하고 있음을 보여줌. 하지만, 더 과부하를 걸면 반 이상이 실패 Retry 설정과 동적 Scale out (replica의 자동적 추가,HPA) 을 통하여 시스템을 확장 해주는 후속처리가 필요.
@@ -678,7 +677,7 @@ siege -c20 -t20S -v  --content-type "application/json" 'http://skccuser28-paymen
 배포기간중 Availability 가 평소 100%에서 70% 대로 떨어지는 것을 확인. 원인은 쿠버네티스가 성급하게 새로 올려진 서비스를 READY 상태로 인식하여 서비스 유입을 진행한 것이기 때문. 이를 막기위해 Readiness Probe 와 liveness Prove 설정을 다시 추가:
 
 ```
-# deployment.yaml 에 readiness probe / liveness prove  설정:
+# deployment.yaml 에 readiness probe 설정
       containers:
         - name: payment
           image: username/payment:latest
